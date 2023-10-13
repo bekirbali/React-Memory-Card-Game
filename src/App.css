@@ -1,0 +1,12 @@
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  justify-content: center;
+}
+
+.cards .frontCard {
+  width: 150px;
+  height: 150px;
+  background-color: red;
+}
