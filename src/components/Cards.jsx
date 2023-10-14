@@ -30,7 +30,7 @@ const Cards = () => {
             setChoiceOne={setChoiceOne}
             setChoiceTwo={setChoiceTwo}
           />
-          <div className="frontCard"></div>
+          {/* <div className="frontCard"></div> */}
         </div>
       ))}
     </div>

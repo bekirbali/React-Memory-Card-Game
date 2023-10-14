@@ -9,15 +9,18 @@ const OneCard = ({
   setChoiceOne,
   setChoiceTwo,
 }) => {
+  const [flip, setFlip] = useState(false);
+
   const matchHandler = (name) => {
     if (choiceTwo) return;
-
+    setFlip(true);
     choiceOne ? setChoiceTwo(name) : setChoiceOne(name);
   };
 
   const reset = () => {
     setChoiceOne(null);
     setChoiceTwo(null);
+    setFlip(false);
   };
 
   useEffect(() => {
@@ -33,21 +36,21 @@ const OneCard = ({
             }
           });
         });
-        console.log(matched);
       } else {
-        console.log("objects not equal");
+        setTimeout(() => {
+          reset();
+        }, 1500);
       }
-      setTimeout(() => {
-        console.log(choiceTwo);
-        reset();
-      }, 1500);
     }
-    console.log(matched, emoji);
-  }, [choiceOne, choiceTwo, matched]);
+  }, [choiceOne, choiceTwo]);
 
   return (
-    <div onClick={() => matchHandler(emoji)}>
-      <h1 className={`${matched ? "matched" : "emojis"}`}>{emoji}</h1>
+    <div
+      onClick={() => matchHandler(emoji)}
+      className={`${matched ? "matched" : flip ? "flip" : "emojis"}`}
+    >
+      <h1>{emoji}</h1>
+      <div className={` ${matched ? "matched" : "frontCard"}`}></div>
     </div>
   );
 };
