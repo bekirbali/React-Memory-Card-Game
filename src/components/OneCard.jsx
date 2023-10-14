@@ -8,6 +8,9 @@ const OneCard = ({
   choiceTwo,
   setChoiceOne,
   setChoiceTwo,
+  shuffleCards,
+  setMatchedCount,
+  matchedCount,
 }) => {
   const [flip, setFlip] = useState(false);
 
@@ -18,18 +21,28 @@ const OneCard = ({
   };
 
   const reset = () => {
-    setChoiceOne(null);
-    setChoiceTwo(null);
-    setFlip(false);
+    if (choiceOne === choiceTwo) {
+      setChoiceOne(null);
+      setChoiceTwo(null);
+      setFlip(false);
+    } else {
+      setTimeout(() => {
+        setChoiceOne(null);
+        setChoiceTwo(null);
+        setFlip(false);
+      }, 1500);
+    }
   };
 
   useEffect(() => {
-    if (choiceTwo) {
+    if (choiceOne && choiceTwo) {
       if (choiceOne === choiceTwo) {
+        setMatchedCount(matchedCount + 1);
+        // console.log(matchedCount);
+        reset();
         setShuffledCards((oldCards) => {
           return oldCards.map((card) => {
             if (choiceOne === card.emoji) {
-              reset();
               return { ...card, matched: true };
             } else {
               return card;
@@ -37,9 +50,7 @@ const OneCard = ({
           });
         });
       } else {
-        setTimeout(() => {
-          reset();
-        }, 1500);
+        reset();
       }
     }
   }, [choiceOne, choiceTwo]);
@@ -50,7 +61,7 @@ const OneCard = ({
       className={`${matched ? "matched" : flip ? "flip" : "emojis"}`}
     >
       <h1>{emoji}</h1>
-      <div className={` ${matched ? "matched" : "frontCard"}`}></div>
+      {/* <div className={` ${matched ? "matched" : "frontCard"}`}></div> */}
     </div>
   );
 };

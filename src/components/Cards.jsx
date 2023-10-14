@@ -8,32 +8,49 @@ const Cards = () => {
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
 
+  const [matchedCount, setMatchedCount] = useState(0);
+  const [gameOver, setGameOver] = useState(true);
+
   const shuffleCards = () => {
+    setGameOver(false);
     const shuffle = [...easyGame, ...easyGame].sort(() => Math.random() - 0.5);
     setShuffledCards(shuffle);
     console.log(shuffledCards);
   };
 
   useEffect(() => {
-    shuffleCards();
-  }, []);
+    if (matchedCount === 6) {
+      setTimeout(() => {
+        setGameOver(true);
+      }, 1000);
+    }
+  }, [matchedCount]);
 
   return (
-    <div className="cards">
-      {shuffledCards.map((item, index) => (
-        <div key={index}>
-          <OneCard
-            {...item}
-            setShuffledCards={setShuffledCards}
-            choiceOne={choiceOne}
-            choiceTwo={choiceTwo}
-            setChoiceOne={setChoiceOne}
-            setChoiceTwo={setChoiceTwo}
-          />
-          {/* <div className="frontCard"></div> */}
+    <>
+      {gameOver ? (
+        <button onClick={shuffleCards}>clickMe</button>
+      ) : (
+        <div className="cards">
+          {shuffledCards.map((item, index) => (
+            <div key={index}>
+              <OneCard
+                {...item}
+                setShuffledCards={setShuffledCards}
+                choiceOne={choiceOne}
+                choiceTwo={choiceTwo}
+                setChoiceOne={setChoiceOne}
+                setChoiceTwo={setChoiceTwo}
+                shuffleCards={shuffleCards}
+                matchedCount={matchedCount}
+                setMatchedCount={setMatchedCount}
+              />
+              {/* <div className="frontCard"></div> */}
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      )}
+    </>
   );
 };
 
