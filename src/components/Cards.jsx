@@ -7,15 +7,22 @@ const Cards = () => {
   const [shuffledCards, setShuffledCards] = useState([]);
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
+  const [cardIdOne, setCardIdOne] = useState("");
+  const [cardIdTwo, setCardIdTwo] = useState("");
 
   const [matchedCount, setMatchedCount] = useState(0);
   const [gameOver, setGameOver] = useState(true);
 
   const shuffleCards = () => {
     setGameOver(false);
-    const shuffle = [...easyGame, ...easyGame].sort(() => Math.random() - 0.5);
+    const shuffle = [...easyGame, ...easyGame]
+      .sort(() => Math.random() - 0.5)
+      .map((card) => ({
+        ...card,
+        id: new Date().getTime() - Math.random() * Math.random() - 0.5,
+      }));
     setShuffledCards(shuffle);
-    console.log(shuffledCards);
+    console.log(shuffle);
   };
 
   useEffect(() => {
@@ -44,6 +51,10 @@ const Cards = () => {
                 shuffleCards={shuffleCards}
                 matchedCount={matchedCount}
                 setMatchedCount={setMatchedCount}
+                cardIdOne={cardIdOne}
+                setCardIdOne={setCardIdOne}
+                cardIdTwo={cardIdTwo}
+                setCardIdTwo={setCardIdTwo}
               />
               {/* <div className="frontCard"></div> */}
             </div>

@@ -3,19 +3,24 @@ import { useEffect, useState } from "react";
 const OneCard = ({
   emoji,
   matched,
+  id,
+  cardIdOne,
+  setCardIdOne,
+  cardIdTwo,
+  setCardIdTwo,
   setShuffledCards,
   choiceOne,
   choiceTwo,
   setChoiceOne,
   setChoiceTwo,
-  shuffleCards,
   setMatchedCount,
   matchedCount,
 }) => {
   const [flip, setFlip] = useState(false);
 
-  const matchHandler = (name) => {
+  const matchHandler = (name, theId) => {
     if (choiceTwo) return;
+
     setFlip(true);
     choiceOne ? setChoiceTwo(name) : setChoiceOne(name);
   };
@@ -38,7 +43,6 @@ const OneCard = ({
     if (choiceOne && choiceTwo) {
       if (choiceOne === choiceTwo) {
         setMatchedCount(matchedCount + 1);
-        // console.log(matchedCount);
         reset();
         setShuffledCards((oldCards) => {
           return oldCards.map((card) => {
@@ -57,7 +61,7 @@ const OneCard = ({
 
   return (
     <div
-      onClick={() => matchHandler(emoji)}
+      onClick={() => matchHandler(emoji, id)}
       className={`${matched ? "matched" : flip ? "flip" : "emojis"}`}
     >
       <h1>{emoji}</h1>
